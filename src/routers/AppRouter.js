@@ -9,6 +9,7 @@ import CreatePage from "../components/CreatePage/CreatePage";
 import EditPage from "../components/EditPage/EditPage";
 import NotFoundPage from "../components/NotFoundPage/NotFoundPage";
 import LoginPage from "../components/LoginPage/LoginPage";
+import SignupPage from "../components/SignupPage/SignupPage";
 
 import AppliedRoute from "./AppliedRoute";
 
@@ -24,6 +25,8 @@ const AppRouter = ({ appProps, handleLogout }) => {
         <AppliedRoute path="/create" component={CreatePage} appProps={appProps} />
         <AppliedRoute path="/edit" component={EditPage} appProps={appProps} />
         <AppliedRoute path="/login" component={LoginPage} appProps={appProps} />
+        <AppliedRoute path="/signup" component={SignupPage} appProps={appProps} />
+
         <Route component={NotFoundPage} />
       </Switch>
     </Router>

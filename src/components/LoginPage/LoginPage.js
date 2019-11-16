@@ -1,59 +1,77 @@
 import React, { useState } from "react";
 import "./LoginPage.scss";
+import Spinner from "../../assets/images/spinner.gif";
+import { useFormFields } from "../../libs/hooksLib";
 
 import { Auth } from "aws-amplify";
 
 const LoginPage = props => {
-  console.log("this is your props in login page", props);
+  const [fields, handleFieldChange] = useFormFields({
+    email: "",
+    password: ""
+  });
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  //initiates feedback for a loader when logging in
+  const [isLoading, setIsLoading] = useState(false);
 
   function validationForm() {
-    return email.length > 0 && password.length > 0;
+    return fields.email.length > 0 && fields.password.length > 0;
   }
 
   async function formOnSubmitHandler(e) {
     e.preventDefault();
+    setIsLoading(true);
     try {
-      await Auth.signIn(email, password);
+      await Auth.signIn(fields.email, fields.password);
       props.userHasAuthenticated(true);
       props.history.push("/dashboard");
     } catch (e) {
       alert(e.message);
+      setIsLoading(false);
     }
   }
 
-  function emailChangeHandler(e) {
-    setEmail(e.target.value);
-  }
-  function passwordChangeHandler(e) {
-    setPassword(e.target.value);
+  let button;
+
+  //conditional statement to return loading spinner based on true/false of loading upon click
+  if (isLoading) {
+    button = (
+      <button disabled={!validationForm()} className="form-button ">
+        <img src={Spinner} alt="spinner" className="spinner-Img" />
+        <span>Login</span>
+      </button>
+    );
+  } else {
+    button = (
+      <button disabled={!validationForm()} className="form-button ">
+        <span>Login</span>
+      </button>
+    );
   }
 
   return (
     <div className="loginContainer">
       <form onSubmit={formOnSubmitHandler} className="loginForm">
+        <label className="loginForm-label">Email</label>
         <input
+          id="email"
           type="text"
           placeholder="Enter Email"
-          name="email"
-          value={email}
-          onChange={emailChangeHandler}
+          value={fields.email}
+          onChange={handleFieldChange}
           className="form-input-1"
           autoFocus={true}
         />
+        <label className="loginForm-label">Password</label>
         <input
+          id="password"
           type="password"
           placeholder="Enter Password"
-          name="password"
-          value={password}
-          onChange={passwordChangeHandler}
+          value={fields.password}
+          onChange={handleFieldChange}
           className="form-input-1"
         />
-        <button disabled={!validationForm()} className="form-button ">
-          Login
-        </button>
+        {button}
       </form>
     </div>
   );
