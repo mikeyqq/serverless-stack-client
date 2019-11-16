@@ -1,0 +1,32 @@
+.loginContainer {
+  padding: 60px 0px;
+
+  .loginForm {
+    margin: 0 auto;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+
+    .form-input-1 {
+      padding-right: 4px;
+      padding-left: 10px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      width: 15rem;
+      border: black 1px solid;
+      border-radius: 5px;
+    }
+    .form-button {
+      color: black;
+      padding: 10px 10px;
+      text-align: center;
+      text-decoration: none;
+      width: 255px;
+      font-size: 1rem;
+      border: black 0.5px solid;
+      border-radius: 5px;
+    }
+  }
+}

@@ -1,24 +1,32 @@
 import React from "react";
-import { Route, BrowserRouter, Switch } from "react-router-dom";
+import { Route, Router, Switch } from "react-router-dom";
+import createHistory from "history/createBrowserHistory";
+
 import Navbar from "../components/Navbar/Navbar";
 import HomePage from "../components/HomePage/HomePage";
 import DashboardPage from "../components/DashboardPage/DashboardPage";
 import CreatePage from "../components/CreatePage/CreatePage";
 import EditPage from "../components/EditPage/EditPage";
 import NotFoundPage from "../components/NotFoundPage/NotFoundPage";
+import LoginPage from "../components/LoginPage/LoginPage";
 
-const AppRouter = () => {
+import AppliedRoute from "./AppliedRoute";
+
+export const history = createHistory();
+
+const AppRouter = ({ appProps, handleLogout }) => {
   return (
-    <BrowserRouter>
-      <Navbar />
+    <Router history={history}>
+      <Navbar appProps={appProps} handleLogout={handleLogout} />
       <Switch>
-        <Route path="/" component={HomePage} exact={true} />
-        <Route path="/dashboard" component={DashboardPage} />
-        <Route path="/create" component={CreatePage} />
-        <Route path="/edit" component={EditPage} />
+        <AppliedRoute path="/" component={HomePage} exact={true} appProps={appProps} />
+        <AppliedRoute path="/dashboard" component={DashboardPage} appProps={appProps} />
+        <AppliedRoute path="/create" component={CreatePage} appProps={appProps} />
+        <AppliedRoute path="/edit" component={EditPage} appProps={appProps} />
+        <AppliedRoute path="/login" component={LoginPage} appProps={appProps} />
         <Route component={NotFoundPage} />
       </Switch>
-    </BrowserRouter>
+    </Router>
   );
 };
 
