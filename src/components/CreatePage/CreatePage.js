@@ -1,8 +1,9 @@
 import React from "react";
+import CreateNote from "./CreateNote/CreateNote";
 
 const CreatePage = () => (
   <div>
-    <p>Create Page</p>
+    <CreateNote />
   </div>
 );
 

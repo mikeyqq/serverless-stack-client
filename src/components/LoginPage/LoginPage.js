@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./LoginPage.scss";
-import Spinner from "../../assets/images/spinner.gif";
 import { useFormFields } from "../../libs/hooksLib";
+import LoaderButton from "../UI/LoaderButton";
+import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 
 import { Auth } from "aws-amplify";
 
@@ -31,47 +32,20 @@ const LoginPage = props => {
     }
   }
 
-  let button;
-
-  //conditional statement to return loading spinner based on true/false of loading upon click
-  if (isLoading) {
-    button = (
-      <button disabled={!validationForm()} className="form-button ">
-        <img src={Spinner} alt="spinner" className="spinner-Img" />
-        <span>Login</span>
-      </button>
-    );
-  } else {
-    button = (
-      <button disabled={!validationForm()} className="form-button ">
-        <span>Login</span>
-      </button>
-    );
-  }
-
   return (
-    <div className="loginContainer">
-      <form onSubmit={formOnSubmitHandler} className="loginForm">
-        <label className="loginForm-label">Email</label>
-        <input
-          id="email"
-          type="text"
-          placeholder="Enter Email"
-          value={fields.email}
-          onChange={handleFieldChange}
-          className="form-input-1"
-          autoFocus={true}
-        />
-        <label className="loginForm-label">Password</label>
-        <input
-          id="password"
-          type="password"
-          placeholder="Enter Password"
-          value={fields.password}
-          onChange={handleFieldChange}
-          className="form-input-1"
-        />
-        {button}
+    <div className="Login">
+      <form onSubmit={formOnSubmitHandler}>
+        <FormGroup controlId="email" bsSize="large">
+          <ControlLabel>Email</ControlLabel>
+          <FormControl autoFocus type="email" value={fields.email} onChange={handleFieldChange} />
+        </FormGroup>
+        <FormGroup controlId="password" bsSize="large">
+          <ControlLabel>Password</ControlLabel>
+          <FormControl value={fields.password} onChange={handleFieldChange} type="password" />
+        </FormGroup>
+        <LoaderButton block bsSize="large" disabled={!validationForm()} type="submit" isLoading={isLoading}>
+          Login
+        </LoaderButton>
       </form>
     </div>
   );

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import Spinner from "../../assets/images/spinner.gif";
+import { HelpBlock, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { useFormFields } from "../../libs/hooksLib";
 import "./SignupPage.scss";
+import LoaderButton from "../UI/LoaderButton";
 
 //This allows our client to speak to aws services
 import { Auth } from "aws-amplify";
+import { history } from "../../routers/AppRouter";
 
 const SignupPage = props => {
-  console.log("this is props in the signuppage", props);
   const [fields, handleFieldChange] = useFormFields({
     email: "",
     password: "",
@@ -28,6 +29,7 @@ const SignupPage = props => {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setIsLoading(true);
     try {
       const newUser = await Auth.signUp({
         username: fields.email,
@@ -38,6 +40,9 @@ const SignupPage = props => {
     } catch (e) {
       alert(e.message);
       setIsLoading(false);
+      if (e.message === "An account with the given email already exists.") {
+        history.push("/login");
+      }
     }
   }
 
@@ -49,106 +54,52 @@ const SignupPage = props => {
       await Auth.confirmSignUp(fields.email, fields.confirmationCode);
       await Auth.signIn(fields.email, fields.password);
       props.userHasAuthenticated(true);
-      props.history.push("/");
+      history.push("/");
     } catch (e) {
-      alert(e.message);
+      alert(e);
       setIsLoading(false);
     }
   }
 
   //if a newUser is truthy and new user did sign up yet, this will render.
   function renderConfirmationForm() {
-    //conditional statement to return loading spinner based on true/false of isLoading upon click
-    let button;
-    if (isLoading) {
-      button = (
-        <button disabled={!validateConfirmationForm()} className="form-button ">
-          <img src={Spinner} alt="spinner" className="spinner-Img" />
-          <span>Verifying</span>
-        </button>
-      );
-    } else {
-      button = (
-        <button disabled={!validateConfirmationForm()} className="form-button ">
-          <span>Verify</span>
-        </button>
-      );
-    }
     return (
-      <div className="signupContainer">
-        <form onSubmit={handleConfirmationSubmit} className="signupForm">
-          <label className="signupForm-label">Confirmation Code</label>
-          <input
-            id="confirmationCode"
-            type="tel"
-            onChange={handleFieldChange}
-            value={fields.confirmationCode}
-            autoFocus
-            className="form-input-1"
-          />
-          <span>Please check your email for verification code.</span>
-          {button}
-        </form>
-      </div>
+      <form onSubmit={handleConfirmationSubmit}>
+        <FormGroup controlId="confirmationCode" bsSize="large">
+          <ControlLabel>Confirmation Code</ControlLabel>
+          <FormControl autoFocus type="tel" onChange={handleFieldChange} value={fields.confirmationCode} />
+          <HelpBlock>Please check your email for the code.</HelpBlock>
+        </FormGroup>
+        <LoaderButton block type="submit" bsSize="large" isLoading={isLoading} disabled={!validateConfirmationForm()}>
+          Verify
+        </LoaderButton>
+      </form>
     );
   }
 
-  //if a newUser is falsy and new user did not sign up yet, this will render.
   function renderForm() {
-    //conditional statement to return loading spinner based on true/false of isLoading upon click
-    let button;
-    if (isLoading) {
-      button = (
-        <button disabled={!validateForm()} className="form-button ">
-          <img src={Spinner} alt="spinner" className="spinner-Img" />
-          <span>Submit</span>
-        </button>
-      );
-    } else {
-      button = (
-        <button disabled={!validateForm()} className="form-button ">
-          <span>Submit</span>
-        </button>
-      );
-    }
     return (
-      <div className="signupContainer">
-        <form onSubmit={handleSubmit} className="signupForm">
-          <label className="signupForm-label">Email</label>
-          <input
-            id="email"
-            type="text"
-            placeholder="Enter Email"
-            value={fields.email}
-            onChange={handleFieldChange}
-            className="form-input-1"
-            autoFocus={true}
-          />
-          <label className="signupForm-label">Password</label>
-          <input
-            id="password"
-            type="password"
-            placeholder="Enter Password"
-            value={fields.password}
-            onChange={handleFieldChange}
-            className="form-input-1"
-          />
-          <label className="signupForm-label">Confirm Password</label>
-          <input
-            id="confirmPassword"
-            type="password"
-            placeholder="Confirm Password"
-            value={fields.confirmPassword}
-            onChange={handleFieldChange}
-            className="form-input-1"
-          />
-          {button}
-        </form>
-      </div>
+      <form onSubmit={handleSubmit}>
+        <FormGroup controlId="email" bsSize="large">
+          <ControlLabel>Email</ControlLabel>
+          <FormControl autoFocus type="email" value={fields.email} onChange={handleFieldChange} />
+        </FormGroup>
+        <FormGroup controlId="password" bsSize="large">
+          <ControlLabel>Password</ControlLabel>
+          <FormControl type="password" value={fields.password} onChange={handleFieldChange} />
+        </FormGroup>
+        <FormGroup controlId="confirmPassword" bsSize="large">
+          <ControlLabel>Confirm Password</ControlLabel>
+          <FormControl type="password" onChange={handleFieldChange} value={fields.confirmPassword} />
+        </FormGroup>
+        <LoaderButton block type="submit" bsSize="large" isLoading={isLoading} disabled={!validateForm()}>
+          Signup
+        </LoaderButton>
+      </form>
     );
   }
 
-  return <div>{newUser === null ? renderForm() : renderConfirmationForm()}</div>;
+  return <div className="Signup">{newUser === null ? renderForm() : renderConfirmationForm()}</div>;
 };
 
 export default SignupPage;

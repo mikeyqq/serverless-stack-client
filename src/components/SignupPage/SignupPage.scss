@@ -1,48 +1,16 @@
-.signupContainer {
-  padding: 60px 0px;
+@media all and (min-width: 480px) {
+  .Signup {
+    padding: 60px 0;
+  }
 
-  .signupForm {
+  .Signup form {
     margin: 0 auto;
     max-width: 320px;
-    display: flex;
-    flex-direction: column;
-
-    .signupForm-label {
-      letter-spacing: 1.5px;
-      font-weight: bold;
-      font-size: 18px;
-      margin-bottom: 5px;
-    }
-
-    .form-input-1 {
-      padding-right: 4px;
-      padding-left: 10px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      font-size: 1rem;
-      margin-bottom: 18px;
-      width: 15rem;
-      border: black 1px solid;
-      border-radius: 5px;
-    }
-    .form-button {
-      color: black;
-      padding: 10px 10px;
-      text-align: center;
-      text-decoration: none;
-      width: 255px;
-      font-size: 1rem;
-      border: black 0.5px solid;
-      border-radius: 5px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      margin-top: 20px;
-    }
-    .spinner-Img {
-      width: 50px;
-      height: 50px;
-    }
   }
+}
+
+.Signup form span.help-block {
+  font-size: 14px;
+  padding-bottom: 10px;
+  color: #999;
 }
