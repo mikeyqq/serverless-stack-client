@@ -48,7 +48,7 @@ import "./NavigationBar.scss";
 const NavigationBar = ({ appProps, handleLogout }) => {
   return (
     !appProps.isAuthenticating && (
-      <div className="App container">
+      <div className="NavigationBar container">
         <Navbar fluid collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
@@ -56,12 +56,7 @@ const NavigationBar = ({ appProps, handleLogout }) => {
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <Link to="/create">Create</Link>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
+
           <Navbar.Collapse>
             <Nav pullRight>
               {appProps.isAuthenticated ? (

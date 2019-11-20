@@ -1,22 +1,23 @@
 import React, { useRef, useState } from "react";
-import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import config from "../../../config";
-import LoaderButton from "../../UI/LoaderButton";
-import { useFormFields } from "../../../libs/hooksLib";
-import "./CreateNote.scss";
+import config from "../../config";
+import LoaderButton from "../UI/LoaderButton";
+import "./NoteForm.scss";
 
-const CreateNote = () => {
+import { history } from "../../routers/AppRouter";
+import { s3Upload } from "../../libs/awsLib";
+import { API } from "aws-amplify";
+import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+
+const NoteForm = () => {
   const file = useRef(null);
-  const [fields, handleFieldChange] = useFormFields({
-    title: "",
-    description: "",
-    priority: 0,
-    date: 0
-  });
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [priority, setPriority] = useState(0);
+
   const [isLoading, setIsLoading] = useState(false);
 
   function validationForm() {
-    return fields.title.length > 0;
+    return title.length > 0 && content.length > 0 && priority.length > 0;
   }
 
   function handleFileChange(event) {
@@ -32,6 +33,22 @@ const CreateNote = () => {
     }
 
     setIsLoading(true);
+    try {
+      const attachment = file.current ? await s3Upload(file.current) : null;
+
+      await createNote({ title, content, priority, attachment });
+      history.push("/");
+    } catch (e) {
+      console.log("this is your error for the s3upload", e);
+      alert(e);
+      setIsLoading(false);
+    }
+  }
+
+  function createNote(note) {
+    return API.post("notes", "/notes", {
+      body: note
+    });
   }
 
   return (
@@ -39,20 +56,21 @@ const CreateNote = () => {
       <form onSubmit={handleSubmit}>
         <FormGroup controlId="title">
           <ControlLabel>Title</ControlLabel>
-          <FormControl value={fields.title} type="text" onChange={handleFieldChange} autoFocus />
+          <FormControl value={title} type="text" onChange={e => setTitle(e.target.value)} autoFocus />
         </FormGroup>
         <FormGroup controlId="description">
-          <ControlLabel>Description</ControlLabel>
-          <FormControl value={fields.description} componentClass="textarea" onChange={handleFieldChange} />
+          <ControlLabel>Content</ControlLabel>
+          <FormControl value={content} componentClass="textarea" onChange={e => setContent(e.target.value)} />
         </FormGroup>
         <FormGroup controlId="priority">
           <ControlLabel>Priority</ControlLabel>
-          <FormControl value={fields.priority} type="text" onChange={handleFieldChange} />
+          <FormControl value={priority} type="text" onChange={e => setPriority(e.target.value)} />
         </FormGroup>
         <FormGroup controlId="file">
           <ControlLabel>File Attachment</ControlLabel>
           <FormControl onChange={handleFileChange} type="file" />
         </FormGroup>
+
         <LoaderButton
           block
           type="submit"
@@ -61,11 +79,11 @@ const CreateNote = () => {
           isLoading={isLoading}
           disabled={!validationForm()}
         >
-          Create
+          Submit
         </LoaderButton>
       </form>
     </div>
   );
 };
 
-export default CreateNote;
+export default NoteForm;

@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: 1.3px;
+  box-sizing: border-box;
 }
 
 h1,
@@ -15,4 +16,8 @@ h4,
 h5,
 h6 {
   font-family: "Oswald", sans-serif;
+}
+
+input[type="file"] {
+  width: 100%;
 }
