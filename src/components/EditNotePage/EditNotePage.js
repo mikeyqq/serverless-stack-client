@@ -65,6 +65,7 @@ const EditNotePage = props => {
     let attachment;
 
     event.preventDefault();
+    setIsLoading(true);
 
     if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
       alert(`Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE / 1000000} MB.`);
@@ -88,6 +89,11 @@ const EditNotePage = props => {
       console.log("this is your error in editnotePAge", e);
       setIsLoading(false);
     }
+    setIsLoading(false);
+  }
+
+  function deleteNote(note) {
+    return API.del("notes", `/notes/${props.match.params.id}`);
   }
 
   async function handleDelete(event) {
@@ -100,6 +106,17 @@ const EditNotePage = props => {
     }
 
     setIsDeleting(true);
+
+    try {
+      await deleteNote();
+      props.history.push("/");
+    } catch (e) {
+      console.log("this is your error attemping to delete", e);
+      alert(e);
+      setIsDeleting(false);
+    }
+
+    setIsDeleting(false);
   }
 
   return (
