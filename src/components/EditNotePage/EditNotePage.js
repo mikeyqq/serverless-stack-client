@@ -20,6 +20,7 @@ const EditNotePage = props => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
+    console.log("this is your props match params id", props.match.params.id);
     function loadNote() {
       return API.get("notes", `/notes/${props.match.params.id}`);
     }
@@ -57,7 +58,7 @@ const EditNotePage = props => {
   }
 
   function saveNote(note) {
-    return API.put("/notes", `/notes/${props.match.params.id}`, { body: note });
+    return API.put("notes", `/notes/${props.match.params.id}`, { body: note });
   }
 
   async function handleSubmit(event) {
@@ -84,6 +85,7 @@ const EditNotePage = props => {
       props.history.push("/");
     } catch (e) {
       alert(e);
+      console.log("this is your error in editnotePAge", e);
       setIsLoading(false);
     }
   }
