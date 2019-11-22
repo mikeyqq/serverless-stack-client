@@ -1,13 +1,21 @@
 .Notes {
-  width: 60rem;
-  margin-left: 30%;
+  max-height: auto;
 }
 
 .Notes form {
-  padding-bottom: 15px;
+  width: 100vw;
+  padding: 0px 20px;
+
+  @media (min-width: "768px") {
+    padding: 0px 4vw;
+  }
+
+  @media (min-width: "1440px") {
+    padding: 0px 11vw;
+  }
 }
 
 .Notes form textarea {
-  height: 300px;
+  height: 25vh;
   font-size: 24px;
 }

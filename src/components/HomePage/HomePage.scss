@@ -1,4 +1,7 @@
 .NotesList {
-  width: 50%;
-  margin-left: 25%;
+  margin: 0px 5vw;
+
+  @media (min-width: "1440px") {
+    margin: 0px 11vw;
+  }
 }

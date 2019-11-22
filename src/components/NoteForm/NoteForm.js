@@ -16,6 +16,7 @@ const NoteForm = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  //check to see if user enter an input
   function validationForm() {
     return title.length > 0 && content.length > 0 && priority.length > 0;
   }
@@ -39,7 +40,6 @@ const NoteForm = () => {
       await createNote({ title, content, priority, attachment });
       history.push("/");
     } catch (e) {
-      console.log("this is your error for the s3upload", e);
       alert(e);
       setIsLoading(false);
     }
