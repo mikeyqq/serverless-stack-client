@@ -13,6 +13,9 @@ import NotFoundPage from "../components/NotFoundPage/NotFoundPage";
 import LoginPage from "../components/LoginPage/LoginPage";
 import SignupPage from "../components/SignupPage/SignupPage";
 import ResetPasswordPage from "../components/ResetPasswordPage/ResetPasswordPage";
+import SettingsPage from "../components/SettingsPage/SettingsPage";
+import ChangePasswordForm from "../components/SettingsPage/ChangePasswordForm/ChangePasswordForm";
+import ChangeEmailForm from "../components/SettingsPage/ChangeEmailForm/ChangeEmailForm";
 
 export const history = createHistory();
 
@@ -21,12 +24,16 @@ const AppRouter = ({ appProps, handleLogout }) => {
     <Router history={history}>
       <NavigationBar appProps={appProps} handleLogout={handleLogout} />
       <Switch>
-        <AppliedRoute path="/" component={HomePage} exact={true} appProps={appProps} />
-        <UnauthenticatedRoute path="/login/reset" component={ResetPasswordPage} exact={true} appProps={appProps} />
-        <UnauthenticatedRoute path="/login" component={LoginPage} appProps={appProps} />
-        <UnauthenticatedRoute path="/signup" component={SignupPage} appProps={appProps} />
-        <AuthenticatedRoute path="/notes/create" component={CreatePage} appProps={appProps} />
-        <AuthenticatedRoute path="/notes/:id" component={EditNotePage} appProps={appProps} />
+        <AppliedRoute path="/" component={HomePage} exact appProps={appProps} />
+        <UnauthenticatedRoute path="/login/reset" exact component={ResetPasswordPage} appProps={appProps} />
+        <UnauthenticatedRoute exact component={LoginPage} path="/login" appProps={appProps} />
+        <UnauthenticatedRoute exact component={SignupPage} path="/signup" appProps={appProps} />
+        <AuthenticatedRoute exact component={SettingsPage} path="/settings" appProps={appProps} />
+        <AuthenticatedRoute exact component={ChangePasswordForm} path="/settings/password" appProps={appProps} />
+        <AuthenticatedRoute exact component={ChangeEmailForm} path="/settings/email" appProps={appProps} />
+        <AuthenticatedRoute exact component={CreatePage} path="/notes/create" appProps={appProps} />
+        <AuthenticatedRoute component={EditNotePage} path="/notes/:id" appProps={appProps} />
+
         <Route component={NotFoundPage} />
       </Switch>
     </Router>
