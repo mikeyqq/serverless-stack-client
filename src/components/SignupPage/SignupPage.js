@@ -27,6 +27,7 @@ const SignupPage = props => {
     return fields.confirmationCode.length > 0;
   }
 
+  //handles user signup with auth.signup
   async function handleSubmit(event) {
     event.preventDefault();
     setIsLoading(true);
@@ -44,8 +45,10 @@ const SignupPage = props => {
         history.push("/login");
       }
     }
+    setIsLoading(false);
   }
 
+  //handles the confirmation code with auth.confirmsignup
   async function handleConfirmationSubmit(event) {
     event.preventDefault();
     setIsLoading(true);

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./LoginPage.scss";
 import { useFormFields } from "../../libs/hooksLib";
 import LoaderButton from "../UI/LoaderButton";
+
+import { NavLink } from "react-router-dom";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 
 import { Auth } from "aws-amplify";
@@ -43,6 +45,7 @@ const LoginPage = props => {
           <ControlLabel>Password</ControlLabel>
           <FormControl value={fields.password} onChange={handleFieldChange} type="password" />
         </FormGroup>
+        <NavLink to="/login/reset">Forgot password?</NavLink>
         <LoaderButton block bsSize="large" disabled={!validationForm()} type="submit" isLoading={isLoading}>
           Login
         </LoaderButton>
