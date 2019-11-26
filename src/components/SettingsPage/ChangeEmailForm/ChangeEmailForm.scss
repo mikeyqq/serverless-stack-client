@@ -1,10 +1,12 @@
-@media all and (min-width: 480px) {
-  .ChangeEmail {
-    padding: 60px 0;
-  }
+.ChangeEmail {
+  padding: 60px 0;
+}
 
-  .ChangeEmail form {
-    margin: 0 auto;
-    max-width: 320px;
+.ChangeEmail form {
+  margin: 0 auto;
+  max-width: 250px;
+
+  @media (min-width: "768px") {
+    max-width: 350px;
   }
 }
