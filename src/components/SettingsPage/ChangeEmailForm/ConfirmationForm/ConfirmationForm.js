@@ -20,7 +20,7 @@ export function ConfirmationForm(props) {
         type="submit"
         bsSize="large"
         isLoading={props.isConfirming}
-        disabled={validateConfirmationCode}
+        disabled={!validateConfirmationCode}
       >
         Confirm
       </LoaderButton>

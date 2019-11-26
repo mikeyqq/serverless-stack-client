@@ -51,7 +51,7 @@ const ChangePasswordForm = props => {
           <ControlLabel>Confirm Password</ControlLabel>
           <FormControl type="password" onChange={handleFieldChange} value={fields.confirmPassword} />
         </FormGroup>
-        <LoaderButton block type="submit" bsSize="large" disabled={!validateForm} isLoading={isChanging}>
+        <LoaderButton block type="submit" bsSize="large" disabled={!validateForm()} isLoading={isChanging}>
           Change Password
         </LoaderButton>
       </form>

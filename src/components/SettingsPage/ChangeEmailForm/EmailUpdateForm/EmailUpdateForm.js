@@ -13,7 +13,7 @@ export function EmailUpdateForm(props) {
         <ControlLabel>New Email</ControlLabel>
         <FormControl autoFocus value={props.fields.email} onChange={props.handleFieldChange} />
       </FormGroup>
-      <LoaderButton block type="submit" bsSize="large" disabled={validateEmailForm()} isLoading={props.isSendingCode}>
+      <LoaderButton block type="submit" bsSize="large" disabled={!validateEmailForm()} isLoading={props.isSendingCode}>
         Update Email
       </LoaderButton>
     </form>

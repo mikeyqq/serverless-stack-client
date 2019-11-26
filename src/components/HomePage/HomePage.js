@@ -7,8 +7,6 @@ import "./HomePage.scss";
 import { API } from "aws-amplify";
 
 const HomePage = props => {
-  console.log("this is the props in homepage", props);
-
   const [newNotes, setNotes] = useState("");
 
   useEffect(() => {
